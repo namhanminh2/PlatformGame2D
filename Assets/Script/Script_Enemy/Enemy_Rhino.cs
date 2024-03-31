@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_Rhino : Enemy
 {
-    [Header("Rhino spesific")]
+    [Header("Rhino specific")]
     [SerializeField] private float agroSpeed;
     [SerializeField] private float shockTime;
                      private float shockTimeCounter;
@@ -31,6 +31,12 @@ public class Enemy_Rhino : Enemy
         }
         else
         {
+            if (!groundDetected)
+            {
+                aggresive = false;
+                Flip();
+            }
+
             rb.velocity = new Vector2(agroSpeed * facingDirection, rb.velocity.y);
             if (wallDetected && invincible)
             {

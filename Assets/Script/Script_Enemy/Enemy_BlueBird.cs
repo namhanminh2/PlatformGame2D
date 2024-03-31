@@ -6,7 +6,7 @@ public class Enemy_BlueBird : Enemy
 {
     private RaycastHit2D ceillingDetected;
 
-    [Header("Blue Bird specifics")]
+    [Header("Blue Bird specific")]
     [SerializeField] private float ceillingDistance;
     [SerializeField] private float groundDistance;
 
