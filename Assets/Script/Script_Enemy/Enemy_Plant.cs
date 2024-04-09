@@ -10,7 +10,7 @@ public class Enemy_Plant : Enemy
     [SerializeField] private Transform bulletOrigin;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private bool facingRight;
-    
+
     protected override void Start()
     {
         base.Start();
@@ -39,5 +39,6 @@ public class Enemy_Plant : Enemy
         GameObject newBullet = Instantiate(bulletPrefab, bulletOrigin.transform.position, bulletOrigin.transform.rotation);
 
         newBullet.GetComponent<Bullet>().SetupSpeed(bulletSpeed * facingDirection, 0);
+        Destroy(newBullet, 3f);
     }
 }

@@ -17,12 +17,18 @@ public class Enemy_Rhino : Enemy
     }
 
 
-    // Update is called once per frame
     void Update()
     {
         CollisionCheck();
-        
-        if (playerDetection.collider.GetComponent<Player>() != null)
+
+        AnimatorController();
+        if (!playerDetection)
+        {
+            WalkAround();
+            return;
+        }
+
+        if (playerDetection.collider.GetComponent<Player>() != null && playerDetection)
             aggresive = true;
 
         if (!aggresive)
@@ -31,13 +37,16 @@ public class Enemy_Rhino : Enemy
         }
         else
         {
-            if (!groundDetected)
+            if (!groundDetected && !wallDetected)
             {
                 aggresive = false;
                 Flip();
             }
 
             rb.velocity = new Vector2(agroSpeed * facingDirection, rb.velocity.y);
+
+
+
             if (wallDetected && invincible)
             {
                 invincible = false;
@@ -53,8 +62,7 @@ public class Enemy_Rhino : Enemy
             shockTimeCounter -= Time.deltaTime;
         }
 
-
-        AnimatorController();
+        
     }
 
     private void AnimatorController()
@@ -62,4 +70,5 @@ public class Enemy_Rhino : Enemy
         anim.SetBool("invincible", invincible);
         anim.SetFloat("xVelocity", rb.velocity.x);
     }
+
 }

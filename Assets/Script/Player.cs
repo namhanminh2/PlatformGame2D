@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     [Header("Collision info")]
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private LayerMask whatIsWall;
     [SerializeField] private float wallCheckDistance;
     [SerializeField] Transform enemyCheck;
     [SerializeField] private float enemyCheckRadius;
@@ -153,6 +154,8 @@ public class Player : MonoBehaviour
         if (!canBeKnocked)
             return;
 
+        GetComponent<CameraShakeFX>().ScreenShake(-facingDirection);
+
         isKnocked = true;
         canBeKnocked = false;
 
@@ -240,7 +243,13 @@ public class Player : MonoBehaviour
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
-    
+
+    public void Push(float pushForce)
+    {
+
+        rb.velocity = new Vector2(rb.velocity.x, pushForce);
+    }
+
     private void AnimatorController()
     {
         bool isMoving = rb.velocity.x != 0;
@@ -255,7 +264,7 @@ public class Player : MonoBehaviour
     private void CollisionCheck()
     {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
-        isWallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
+        isWallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, whatIsWall);
 
         if(!isGrounded && rb.velocity.y <0)
             canWallSlide = true;

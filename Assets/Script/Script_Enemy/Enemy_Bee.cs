@@ -13,7 +13,6 @@ public class Enemy_Bee : Enemy
     private int idlePointIndex;
 
     private bool playerDetected;
-    private Transform player;
     private float defaultSpeed;
 
     [Header("Bullet specific")]
@@ -25,7 +24,6 @@ public class Enemy_Bee : Enemy
     {
         base.Start();
         defaultSpeed = speed;
-        player = GameObject.Find("Player").transform;
     }
 
 
@@ -33,13 +31,19 @@ public class Enemy_Bee : Enemy
     void Update()
     {
 
+        CollisionCheck();
+
         bool idle = idleTimeCounter > 0;
+
         anim.SetBool("idle", idle);
         idleTimeCounter -= Time.deltaTime;
+
         if (idle)
             return;
 
-        playerDetected = Physics2D.OverlapCircle(transform.position, checkRadius, whatIsPlayer);
+
+        if (player == null)
+            return;
 
         if (playerDetected && !aggresive)
         {
@@ -51,11 +55,11 @@ public class Enemy_Bee : Enemy
         {
             transform.position = Vector2.MoveTowards(transform.position, idlePoint[idlePointIndex].position, speed * Time.deltaTime);
 
-            if(Vector2.Distance(transform.position, idlePoint[idlePointIndex].position) < .1f)
+            if (Vector2.Distance(transform.position, idlePoint[idlePointIndex].position) < .1f)
             {
                 idlePointIndex++;
 
-                if(idlePointIndex >= idlePoint.Length)
+                if (idlePointIndex >= idlePoint.Length)
                     idlePointIndex = 0;
             }
         }
@@ -70,11 +74,7 @@ public class Enemy_Bee : Enemy
             if (Mathf.Abs(xDifference) < .15f)
             {
                 anim.SetTrigger("attack");
-
             }
-
-
-
 
         }
 
@@ -83,12 +83,18 @@ public class Enemy_Bee : Enemy
     private void AttackEvent()
     {
         GameObject newBullet = Instantiate(bulletPrefab, bulletOrigin.transform.position, bulletOrigin.transform.rotation);
-
         newBullet.GetComponent<Bullet>().SetupSpeed(0, -speed);
+        Destroy(newBullet, 3f);
 
         speed = defaultSpeed;
         idleTimeCounter = idleTime;
         aggresive = false;
+    }
+
+    protected override void CollisionCheck()
+    {
+        base.CollisionCheck();
+        playerDetected = Physics2D.OverlapCircle(playerCheck.position, checkRadius, whatIsPlayer);
     }
 
     protected override void OnDrawGizmos()

@@ -6,32 +6,36 @@ public class Enemy_Bat : Enemy
 {
     [Header("Bat Specific")]
     [SerializeField] private Transform[] idlePoint;
+    [SerializeField] private float checkRadius;
+    [SerializeField] private LayerMask whatIsPlayer;
 
 
     private Vector2 destination;
-    private bool canBeAgressive = true;
+    private bool canBeAggresive = true;
     private bool playerDetected;
-    private Transform player;
     float defaultSpeed;
 
-    [SerializeField] private float checkRadius;
-    [SerializeField] private LayerMask whatIsPlayer;
 
     protected override void Start()
     {
         base.Start();
-        player = GameObject.Find("Player").transform;
+        
         defaultSpeed = speed;
         destination = idlePoint[0].position;
         transform.position = idlePoint[0].position;
+        for (int i = 0; i < idlePoint.Length; i++)
+        {
+            idlePoint[i].GetComponent<SpriteRenderer>().sprite = null;
+        }
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        anim.SetBool("canBeAgressive", canBeAgressive);
+        anim.SetBool("canBeAggresive", canBeAggresive);
         anim.SetFloat("speed", speed);
+
 
         idleTimeCounter -= Time.deltaTime;
         if (idleTimeCounter > 0)
@@ -39,11 +43,18 @@ public class Enemy_Bat : Enemy
 
         playerDetected = Physics2D.OverlapCircle(transform.position, checkRadius, whatIsPlayer);
 
-        if (playerDetected && !aggresive && canBeAgressive)
+        if (playerDetected && !aggresive && canBeAggresive)
         {
             aggresive = true;
-            canBeAgressive = false;
-            destination = player.transform.position;
+            canBeAggresive = false;
+
+            if (player != null)
+                destination = player.transform.position;
+            else
+            {
+                aggresive = false;
+                canBeAggresive = true;
+            }
         }
 
 
@@ -67,15 +78,14 @@ public class Enemy_Bat : Enemy
 
             if (Vector2.Distance(transform.position, destination) < .1f)
             {
-                if (!canBeAgressive)
+                if (!canBeAggresive)
                     idleTimeCounter = idleTime;
 
-                canBeAgressive = true;
+                canBeAggresive = true;
                 speed = defaultSpeed;
-
             }
-
         }
+
 
         FlipController();
 
@@ -90,6 +100,9 @@ public class Enemy_Bat : Enemy
 
     private void FlipController()
     {
+        if (player == null)
+            return;
+
         if (facingDirection == -1 && transform.position.x < destination.x)
             Flip();
         else if (facingDirection == 1 && transform.position.x > destination.x)

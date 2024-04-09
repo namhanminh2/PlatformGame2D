@@ -6,13 +6,16 @@ public class Enemy_Trunk : Enemy
 {
 
     [Header("Trunk specific")]
+    [SerializeField] private float moveBackTime;
+    private float moveBackTimeCounter;
+
+
+    [Header("Collision specifics")]
     [SerializeField] private float checkRadius;
     [SerializeField] private LayerMask whatIsPlayer;
     [SerializeField] private Transform groundBehindCheck;
     private bool wallBehind;
     private bool groundBehind;
-
-
 
     private bool playerDetected;
 
@@ -37,7 +40,13 @@ public class Enemy_Trunk : Enemy
             rb.velocity = new Vector2(0, 0);
 
         attackCooldownCounter -= Time.deltaTime;
-        if (playerDetection.collider.GetComponent<Player>() != null)
+        moveBackTimeCounter -= Time.deltaTime;
+
+        if (playerDetected && moveBackTimeCounter <0)
+            moveBackTimeCounter = moveBackTime;
+
+        
+        if (playerDetection.collider != null && playerDetection.collider.GetComponent<Player>() != null)
         {
             if (attackCooldownCounter < 0)
             {
@@ -50,7 +59,7 @@ public class Enemy_Trunk : Enemy
         }
         else
         {
-            if (playerDetected)
+            if (moveBackTimeCounter > 0)
                 MoveBackwards(4);
             else
                 WalkAround();
@@ -77,6 +86,7 @@ public class Enemy_Trunk : Enemy
         GameObject newBullet = Instantiate(bulletPrefab, bulletOrigin.transform.position, bulletOrigin.transform.rotation);
 
         newBullet.GetComponent<Bullet>().SetupSpeed(bulletSpeed * facingDirection, 0);
+        Destroy(newBullet, 3f);
     }
 
     private void ReturnMovement()
@@ -90,7 +100,7 @@ public class Enemy_Trunk : Enemy
         base.CollisionCheck();
 
         playerDetected = Physics2D.OverlapCircle(transform.position, checkRadius, whatIsPlayer);
-        groundBehind = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+        groundBehind = Physics2D.Raycast(groundBehindCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
         wallBehind = Physics2D.Raycast(wallCheck.position, Vector2.right * (-facingDirection + 1), wallCheckDistance, whatIsGround);
     }
 

@@ -20,6 +20,7 @@ public class Enemy : Danger
     protected bool wallDetected;
     protected bool groundDetected;
     protected RaycastHit2D playerDetection;
+    protected Transform player;
 
     [HideInInspector] public bool invincible;
 
@@ -36,6 +37,9 @@ public class Enemy : Danger
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
+        InvokeRepeating("FindPlayer", 0, .5f);
+        FindPlayer();
+
         if (groundCheck == null)
             groundCheck = transform;
         if (wallCheck == null)
@@ -49,6 +53,15 @@ public class Enemy : Danger
             canMove = false;
             anim.SetTrigger("gotHit");
         }
+    }
+
+    private void FindPlayer()
+    {
+        if (player != null)
+            return;
+
+        if (PlayerManager.instance.currentPlayer != null)
+            player = PlayerManager.instance.currentPlayer.transform;
     }
 
     public void DestroyMe()
@@ -65,7 +78,7 @@ public class Enemy : Danger
 
         idleTimeCounter -= Time.deltaTime;
 
-        if (wallDetected || !groundDetected)
+        if (!groundDetected || wallDetected)
         {
             idleTimeCounter = idleTime;
             Flip();
