@@ -24,8 +24,10 @@ public class Player : MonoBehaviour
     private bool canDoubleJump;
     private bool canMove = true;
     private float movingInput;
-        
-    
+
+    private bool canBeControlled;
+    private float defaultGravityScale;
+
     [SerializeField] private float bufferJumpTime;
     private float bufferJumpCounter;
     [SerializeField] private float coyoteJumpTime;
@@ -58,6 +60,8 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         defaultJumpForce = jumpForce;
+        defaultGravityScale = rb.gravityScale;
+        rb.gravityScale = 0;
     }
 
     // Update is called once per frame
@@ -140,6 +144,9 @@ public class Player : MonoBehaviour
 
     private void CheckInput()
     {
+        if (!canBeControlled)
+            return;
+
         movingInput = Input.GetAxisRaw("Horizontal");
         if (Input.GetAxis("Vertical") < 0)
             canWallSlide = false;
@@ -149,12 +156,21 @@ public class Player : MonoBehaviour
             JumpButton();
     }
 
+    public void ReturnControll()
+    {
+        rb.gravityScale = defaultGravityScale;
+        canBeControlled = true;
+    }
+
     public void KnockBack(Transform damageTransform)
     {
         if (!canBeKnocked)
             return;
 
-        GetComponent<CameraShakeFX>().ScreenShake(-facingDirection);
+        if (GameManager.instance.difficulty > 1)
+            PlayerManager.instance.OnTakingDamage();
+
+        PlayerManager.instance.ScreenShake(-facingDirection);
 
         isKnocked = true;
         canBeKnocked = false;
@@ -255,11 +271,12 @@ public class Player : MonoBehaviour
         bool isMoving = rb.velocity.x != 0;
 
         anim.SetBool("isKnocked", isKnocked);
-        anim.SetFloat("yVelocity", rb.velocity.y);
-        anim.SetBool("isGrounded", isGrounded);
         anim.SetBool("isMoving", isMoving);
+        anim.SetBool("isGrounded", isGrounded);
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isWallDetected", isWallDetected);
+        anim.SetBool("canBeControlled", canBeControlled);
+        anim.SetFloat("yVelocity", rb.velocity.y);
     }
     private void CollisionCheck()
     {

@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public GameObject currentPlayer;
     [HideInInspector] public int choosenSkinId;
 
-    /*public InGame_UI inGameUI;*/
+    public InGame_UI inGameUI;
     [Header("Player info")]
 
     [SerializeField] private GameObject fruitPrefab;
@@ -25,9 +25,20 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Vector3 shakeDirection;
     [SerializeField] private float forceMultiplier;
 
+    public void ScreenShake(int facingDir)
+    {
+        impulse.m_DefaultVelocity = new Vector3(shakeDirection.x * facingDir, shakeDirection.y) * forceMultiplier;
+        impulse.GenerateImpulse();
+    }
+
     private void Awake()
     {
-        instance = this;
+        DontDestroyOnLoad(this.gameObject);
+
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
     }
 
     private void Update()
@@ -49,8 +60,8 @@ public class PlayerManager : MonoBehaviour
             if (difficulty > 1)
                 HaveEnoughFruits();
         }
-        /*else
-            inGameUI.OnDeath();*/
+        else
+            inGameUI.OnDeath();
 
     }
 
@@ -58,9 +69,9 @@ public class PlayerManager : MonoBehaviour
     {
         int fruitIndex = UnityEngine.Random.Range(0, Enum.GetNames(typeof(FruitType)).Length);
 
-        GameObject newFruit = Instantiate(fruitPrefab, currentPlayer.transform.position, transform.rotation);
-        newFruit.GetComponent<Fruit_DropedByPlayer>().FruitSteup(fruitIndex);
-        Destroy(newFruit, 20);
+        /*GameObject newFruit = Instantiate(fruitPrefab, currentPlayer.transform.position, transform.rotation);
+        newFruit.GetComponent<Fruit_DropedByPlayer>().FruitSteup(fruitIndex);*/
+        /*Destroy(newFruit, 20);*/
     }
 
     private bool HaveEnoughFruits()
@@ -84,9 +95,22 @@ public class PlayerManager : MonoBehaviour
         if ( currentPlayer == null)
         {
             currentPlayer = Instantiate(playerPrefab, respawnPoint.position, transform.rotation);
+            /*inGameUI.AssignPlayerControlls(currentPlayer.GetComponent<Player>());*/
+            /*AudioManager.instance.PlaySFX(11);*/
         }
     }
+    public void OnTakingDamage()
+    {
+        if (!HaveEnoughFruits())
+        {
+            KillPlayer();
 
+            if (GameManager.instance.difficulty < 3)
+                Invoke("RespawnPlayer", 1);
+            else
+                inGameUI.OnDeath();
+        }
+    }
 
     public void KillPlayer()
     {

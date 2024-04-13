@@ -9,31 +9,30 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject levelButton;
     [SerializeField] private Transform levelButtonParent;
-    /*[SerializeField] private bool[] levelOpen;*/
+    [SerializeField] private bool[] levelOpen;
 
 
     private void Start()
     {
-        /*PlayerPrefs.SetInt("Level" + 1 + "Unlocked", 1);
+        PlayerPrefs.SetInt("Level" + 1 + "Unlocked", 1);
 
-        AssignLevelBooleans();*/
+        AssignLevelBooleans();
 
         for (int i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-            /*if (!levelOpen[i])
-                return;*/
+            if (!levelOpen[i])
+                return;
 
 
             string sceneName = "Level " + i;
 
             GameObject newButton = Instantiate(levelButton, levelButtonParent);
             newButton.GetComponent<Button>().onClick.AddListener(() => LoadLevel(sceneName));
-            /*newButton.GetComponent<LevelButton_UI>().UpdateTextInfo(i);*/
-            newButton.GetComponentInChildren<TextMeshProUGUI>().text = sceneName;
+            newButton.GetComponent<LevelButton>().UpdateTextInfo(i);
         }
     }
 
-    /*private void AssignLevelBooleans()
+    private void AssignLevelBooleans()
     {
         for (int i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
         {
@@ -44,18 +43,18 @@ public class LevelManager : MonoBehaviour
             else
                 return;
         }
-    }*/
+    }
 
     public void LoadLevel(string sceneName)
     {
         /*AudioManager.instance.PlaySFX(4);*/
-        /*GameManager.instance.SaveGameDifficulty();*/
+        GameManager.instance.SaveGameDifficulty();
         SceneManager.LoadScene(sceneName);
     }
 
-    /*public void LoadNewGame()
+    public void LoadNewGame()
     {
-        *//*AudioManager.instance.PlaySFX(4);*//*
+        /*AudioManager.instance.PlaySFX(4);*/
 
         for (int i = 2; i < SceneManager.sceneCountInBuildSettings; i++)
         {
@@ -71,7 +70,7 @@ public class LevelManager : MonoBehaviour
 
     public void LoadContinueGame()
     {
-        *//*AudioManager.instance.PlaySFX(4);*//*
+        /*AudioManager.instance.PlaySFX(4);*/
 
         for (int i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
         {
@@ -83,5 +82,5 @@ public class LevelManager : MonoBehaviour
                 return;
             }
         }
-    }*/
+    }
 }
