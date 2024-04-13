@@ -15,13 +15,10 @@ public class Enemy : Danger
     [SerializeField] protected LayerMask whatToIgnore;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected float wallCheckDistance;
-    /*[SerializeField] protected float attackCheckDistance;*/
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected Transform wallCheck;
-    /*[SerializeField] protected Transform attackCheck;*/
     protected bool wallDetected;
     protected bool groundDetected;
-    /*protected bool attackDetected;*/
     protected RaycastHit2D playerDetection;
     protected Transform player;
 
@@ -112,10 +109,6 @@ public class Enemy : Danger
             Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + playerDetection.distance * facingDirection, wallCheck.position.y));
 
         }
-
-        /*if(attackCheck != null)
-            Gizmos.DrawLine(attackCheck.position, new Vector2(attackCheck.position.x + attackCheckDistance * facingDirection, attackCheck.position.y));*/
-
 
     }
 }

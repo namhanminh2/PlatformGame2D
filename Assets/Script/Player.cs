@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private bool canBeControlled;
     private float defaultGravityScale;
 
+
     [SerializeField] private float bufferJumpTime;
     private float bufferJumpCounter;
     [SerializeField] private float coyoteJumpTime;
@@ -167,10 +168,7 @@ public class Player : MonoBehaviour
         if (!canBeKnocked)
             return;
 
-        if (GameManager.instance.difficulty > 1)
-            PlayerManager.instance.OnTakingDamage();
-
-        PlayerManager.instance.ScreenShake(-facingDirection);
+        GetComponent<CameraShakeFX>().ScreenShake(-facingDirection);
 
         isKnocked = true;
         canBeKnocked = false;
@@ -271,12 +269,12 @@ public class Player : MonoBehaviour
         bool isMoving = rb.velocity.x != 0;
 
         anim.SetBool("isKnocked", isKnocked);
-        anim.SetBool("isMoving", isMoving);
-        anim.SetBool("isGrounded", isGrounded);
-        anim.SetBool("isWallSliding", isWallSliding);
-        anim.SetBool("isWallDetected", isWallDetected);
-        anim.SetBool("canBeControlled", canBeControlled);
         anim.SetFloat("yVelocity", rb.velocity.y);
+        anim.SetBool("isGrounded", isGrounded);
+        anim.SetBool("isMoving", isMoving);
+        anim.SetBool("isWallSliding", isWallSliding);
+        anim.SetBool("canBeControlled", canBeControlled);
+        anim.SetBool("isWallDetected", isWallDetected);
     }
     private void CollisionCheck()
     {

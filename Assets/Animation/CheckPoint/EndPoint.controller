@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: activate
+    m_ConditionEvent: activated
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -242923868523372756}
@@ -85,7 +85,7 @@ AnimatorController:
   m_Name: EndPoint
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: activate
+  - m_Name: activated
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
