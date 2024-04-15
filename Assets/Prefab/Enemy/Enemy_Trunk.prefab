@@ -281,7 +281,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 94344637
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -5219337101871392587, guid: bf4df7b2c9cda4c44b372e2b47a5cb8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -410,6 +410,7 @@ MonoBehaviour:
   groundCheck: {fileID: 1962512715204017047}
   wallCheck: {fileID: 7925772499486642453}
   invincible: 0
+  deathFx: {fileID: 7205642412159156546, guid: 49773d70fbbf778499ed95b06310f7ea, type: 3}
   speed: 4
   idleTime: 2
   moveBackTime: 0

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6909634011516193694}
   - component: {fileID: 937069751019457545}
   - component: {fileID: 6361491116371607301}
+  - component: {fileID: 7097901326449317986}
   m_Layer: 0
   m_Name: Enemy_Mushroom
   m_TagString: Untagged
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 94344637
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -6367560908665664636, guid: a6465882e447a7346b1d80709f6094be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -207,8 +208,23 @@ MonoBehaviour:
   groundCheck: {fileID: 4589101980690271198}
   wallCheck: {fileID: 3457807467179660825}
   invincible: 0
+  deathFx: {fileID: 7205642412159156546, guid: 49773d70fbbf778499ed95b06310f7ea, type: 3}
   speed: 2
   idleTime: 2
+--- !u!114 &7097901326449317986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183983407759781164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e8f148922f0ec42a4b1cc96281358f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruit: {fileID: 6776853651205269930, guid: a69225acc765a574997c689557123cca, type: 3}
+  dropAmount: 0
 --- !u!1 &3247750270638789038
 GameObject:
   m_ObjectHideFlags: 0

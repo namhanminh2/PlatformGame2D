@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public GameObject currentPlayer;
     [HideInInspector] public int choosenSkinId;
 
-    /*public InGame_UI inGameUI;*/
+    public InGame inGame;
     [Header("Player info")]
 
     [SerializeField] private GameObject fruitPrefab;
@@ -25,15 +25,26 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Vector3 shakeDirection;
     [SerializeField] private float forceMultiplier;
 
+    public void ScreenShake(int facingDir)
+    {
+        impulse.m_DefaultVelocity = new Vector3(shakeDirection.x * facingDir, shakeDirection.y) * forceMultiplier;
+        impulse.GenerateImpulse();
+    }
+
     private void Awake()
     {
-        instance = this;
+        DontDestroyOnLoad(this.gameObject);
+
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
-            PlayerRespawn();
+            RespawnPlayer();
     }
 
     public void OnFalling()
@@ -49,8 +60,8 @@ public class PlayerManager : MonoBehaviour
             if (difficulty > 1)
                 HaveEnoughFruits();
         }
-        /*else
-            inGameUI.OnDeath();*/
+        else
+            inGame.OnDeath();
 
     }
 
@@ -79,18 +90,31 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    public void PlayerRespawn()
+    public void RespawnPlayer()
     {
-        if ( currentPlayer == null)
+        if (currentPlayer == null)
         {
             currentPlayer = Instantiate(playerPrefab, respawnPoint.position, transform.rotation);
+            inGame.AssignPlayerControlls(currentPlayer.GetComponent<Player>());
+            AudioManager.instance.PlaySFX(11);
+        }
+    }
+    public void OnTakingDamage()
+    {
+        if (!HaveEnoughFruits())
+        {
+            KillPlayer();
+
+            if (GameManager.instance.difficulty < 3)
+                Invoke("RespawnPlayer", 1);
+            else
+                inGame.OnDeath();
         }
     }
 
-
     public void KillPlayer()
     {
-        /*AudioManager.instance.PlaySFX(0);*/
+        AudioManager.instance.PlaySFX(0);
 
         GameObject newDeathFx = Instantiate(deathFx, currentPlayer.transform.position, currentPlayer.transform.rotation);
         Destroy(newDeathFx, .4f);

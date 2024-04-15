@@ -24,6 +24,9 @@ public class Enemy : Danger
 
     [HideInInspector] public bool invincible;
 
+    [Header("FX")]
+    [SerializeField] private GameObject deathFx;
+
     [Header("Move info")]
     [SerializeField] protected float speed;
     [SerializeField] protected float idleTime = 2;
@@ -66,6 +69,17 @@ public class Enemy : Danger
 
     public void DestroyMe()
     {
+        if (deathFx != null)
+        {
+            GameObject newDeathFx = Instantiate(deathFx, transform.position, transform.rotation);
+            Destroy(newDeathFx, .3f);
+        }
+
+        if (GetComponent<Enemy_DropController>() != null)
+            GetComponent<Enemy_DropController>().DropFruits();
+        else
+            Debug.LogWarning("You don't have !Enemy_DropController! on the enemy!");
+
         Destroy(gameObject);
     }
 

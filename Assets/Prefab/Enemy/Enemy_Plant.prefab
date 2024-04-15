@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 94344637
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7059297670216363161, guid: 326dd6eeaa0ca144ca01194dbacf63fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -177,9 +177,10 @@ MonoBehaviour:
   groundCheck: {fileID: 2336972886987507818}
   wallCheck: {fileID: 2336972886987507818}
   invincible: 0
+  deathFx: {fileID: 7205642412159156546, guid: 49773d70fbbf778499ed95b06310f7ea, type: 3}
   speed: 0
   idleTime: 2
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 1100018939996885639, guid: 4f5ff7414129aae43a307ee0c3307992, type: 3}
   bulletOrigin: {fileID: 3355797239712369572}
   bulletSpeed: 4
   facingRight: 0

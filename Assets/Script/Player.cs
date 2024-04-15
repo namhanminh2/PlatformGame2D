@@ -8,6 +8,12 @@ public class Player : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rb;
 
+    [SerializeField] public bool testingOnPc;
+
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem dustFx;
+    private float dustFxTimer;
+
     private bool facingRight=true;
     private int facingDirection = 1;
     
@@ -20,10 +26,11 @@ public class Player : MonoBehaviour
 
 
     private float defaultJumpForce;
-    
+
+    private bool readyToLand;
+
     private bool canDoubleJump;
     private bool canMove = true;
-    private float movingInput;
 
     private bool canBeControlled;
     private float defaultGravityScale;
@@ -54,11 +61,18 @@ public class Player : MonoBehaviour
     private bool canWallSlide;
     private bool isWallSliding;
 
+    [Header("Controlls info")]
+    public VariableJoystick joystick;
+    private float movingInput;
+    private float vInput;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        SetAnimationLayer();
 
         defaultJumpForce = jumpForce;
         defaultGravityScale = rb.gravityScale;
@@ -91,9 +105,18 @@ public class Player : MonoBehaviour
                 Jump();
             }
             canHavaCoyoteJump = true;
+
+            if (readyToLand)
+            {
+                dustFx.Play();
+                readyToLand = false;
+            }
         }
         else
         {
+            if (!readyToLand)
+                readyToLand = true;
+
             if (canHavaCoyoteJump)
             {
                 canHavaCoyoteJump = false;
@@ -109,6 +132,18 @@ public class Player : MonoBehaviour
         }
 
         Move();
+    }
+
+    private void SetAnimationLayer()
+    {
+        int skinIndex = PlayerManager.instance.choosenSkinId;
+
+        for (int i = 0; i < anim.layerCount; i++)
+        {
+            anim.SetLayerWeight(i, 0);
+        }
+
+        anim.SetLayerWeight(skinIndex, 1);
     }
 
     private void CheckForEnemy()
@@ -127,20 +162,27 @@ public class Player : MonoBehaviour
 
                 if (rb.velocity.y < 0)
                 {
+                    AudioManager.instance.PlaySFX(1);
                     newEnemy.Damage();
+                    anim.SetBool("flipping", true);
                     Jump();
                 }
             }
         }
     }
-
+    private void StopFlippingAnimation()
+    {
+        anim.SetBool("flipping", false);
+    }
 
     private void WallJump()
     {
+        AudioManager.instance.PlaySFX(3);
         canMove = false;
         canDoubleJump = true;
 
         rb.velocity = new Vector2(wallJumpDirection.x * -facingDirection, wallJumpDirection.y);
+        dustFx.Play();
     }
 
     private void CheckInput()
@@ -148,10 +190,19 @@ public class Player : MonoBehaviour
         if (!canBeControlled)
             return;
 
-        movingInput = Input.GetAxisRaw("Horizontal");
-        if (Input.GetAxis("Vertical") < 0)
+        if (testingOnPc)
+        {
+            movingInput = Input.GetAxisRaw("Horizontal");
+            vInput = Input.GetAxisRaw("Vertical");
+        }
+        else
+        {
+            movingInput = joystick.Horizontal;
+            vInput = joystick.Vertical;
+        }
+
+        if (vInput < 0)
             canWallSlide = false;
-        
 
         if (Input.GetKeyDown(KeyCode.Space))
             JumpButton();
@@ -165,8 +216,12 @@ public class Player : MonoBehaviour
 
     public void KnockBack(Transform damageTransform)
     {
+        AudioManager.instance.PlaySFX(9);
         if (!canBeKnocked)
             return;
+
+        if (GameManager.instance.difficulty > 1)
+            PlayerManager.instance.OnTakingDamage();
 
         GetComponent<CameraShakeFX>().ScreenShake(-facingDirection);
 
@@ -207,12 +262,20 @@ public class Player : MonoBehaviour
 
     private void Flip()
     {
+        if (dustFxTimer < 0)
+        {
+            dustFx.Play();
+            dustFxTimer = .7f;
+        }
+
         facingDirection = facingDirection * -1;
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
     }
     private void FlipController()
     {
+        dustFxTimer -= Time.deltaTime;
+
         if (isGrounded && isWallDetected)
         {
             if (facingRight && movingInput < 0)
@@ -227,7 +290,7 @@ public class Player : MonoBehaviour
             Flip();
     }
 
-    private void JumpButton()
+    public void JumpButton()
     {
         if(!isGrounded)
         {
@@ -255,7 +318,10 @@ public class Player : MonoBehaviour
     }
     private void Jump()
     {
+        AudioManager.instance.PlaySFX(3);
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        if (isGrounded)
+            dustFx.Play();
     }
 
     public void Push(float pushForce)
