@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7647352136702080492}
   - component: {fileID: 4551535261726038433}
   - component: {fileID: 552750134427289668}
+  - component: {fileID: 5880604105943267239}
   m_Layer: 0
   m_Name: Enemy_Rhino
   m_TagString: Untagged
@@ -212,6 +213,20 @@ MonoBehaviour:
   idleTime: 2
   agroSpeed: 8
   shockTime: 1
+--- !u!114 &5880604105943267239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632223161976418039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e8f148922f0ec42a4b1cc96281358f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruit: {fileID: 6776853651205269930, guid: a69225acc765a574997c689557123cca, type: 3}
+  dropAmount: 0
 --- !u!1 &6675144113547281948
 GameObject:
   m_ObjectHideFlags: 0

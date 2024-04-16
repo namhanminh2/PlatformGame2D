@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 3220660726608426121}
   - component: {fileID: 9216317657656211236}
   - component: {fileID: 7455940196545374222}
+  - component: {fileID: 3121736927264035311}
   m_Layer: 0
   m_Name: Bee
   m_TagString: Untagged
@@ -342,6 +343,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8371872900583383732, guid: 5f5203fe69b143e419ec9e4e1e4e9b38, type: 3}
   bulletOrigin: {fileID: 3428735058307283322}
   bulletSpeed: 8
+--- !u!114 &3121736927264035311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6075340364247446606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e8f148922f0ec42a4b1cc96281358f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruit: {fileID: 6776853651205269930, guid: a69225acc765a574997c689557123cca, type: 3}
+  dropAmount: 0
 --- !u!1 &6690195899127467478
 GameObject:
   m_ObjectHideFlags: 0

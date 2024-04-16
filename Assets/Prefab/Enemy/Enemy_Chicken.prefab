@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 7484126765193890158}
   - component: {fileID: 3281626752291725269}
   - component: {fileID: 8719907687643347761}
+  - component: {fileID: 874127330381931076}
   m_Layer: 0
   m_Name: Enemy_Chicken
   m_TagString: Untagged
@@ -349,3 +350,17 @@ MonoBehaviour:
   deathFx: {fileID: 7205642412159156546, guid: 49773d70fbbf778499ed95b06310f7ea, type: 3}
   speed: 8
   idleTime: 2
+--- !u!114 &874127330381931076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7924789153821497213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e8f148922f0ec42a4b1cc96281358f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruit: {fileID: 6776853651205269930, guid: a69225acc765a574997c689557123cca, type: 3}
+  dropAmount: 0

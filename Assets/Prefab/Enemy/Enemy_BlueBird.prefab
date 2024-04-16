@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 7244473722109582226}
   - component: {fileID: 8587016979802588313}
   - component: {fileID: 7207003636694267542}
+  - component: {fileID: -5942874454173119810}
   m_Layer: 0
   m_Name: Enemy_BlueBird
   m_TagString: Untagged
@@ -272,3 +273,17 @@ MonoBehaviour:
   movepoint: {fileID: 0}
   xMultiplier: 0
   yMultiplier: 0
+--- !u!114 &-5942874454173119810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2233908270264456004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e8f148922f0ec42a4b1cc96281358f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruit: {fileID: 6776853651205269930, guid: a69225acc765a574997c689557123cca, type: 3}
+  dropAmount: 0

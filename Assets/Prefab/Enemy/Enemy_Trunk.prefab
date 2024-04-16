@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 8660525561196316887}
   - component: {fileID: 1117699433061775137}
   - component: {fileID: 5144057902228393380}
+  - component: {fileID: 6153772911207449620}
   m_Layer: 0
   m_Name: Enemy_Trunk
   m_TagString: Untagged
@@ -423,3 +424,17 @@ MonoBehaviour:
   bulletSpeed: 8
   bulletPrefab: {fileID: 5308140107697078062, guid: c46ef00b4d0eb2a4fab4e7034a3cf40e, type: 3}
   bulletOrigin: {fileID: 1075899403036042728}
+--- !u!114 &6153772911207449620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7571481598041422110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e8f148922f0ec42a4b1cc96281358f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruit: {fileID: 6776853651205269930, guid: a69225acc765a574997c689557123cca, type: 3}
+  dropAmount: 0

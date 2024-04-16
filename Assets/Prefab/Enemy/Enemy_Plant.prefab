@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8215105270553236042}
   - component: {fileID: 9130261061826904848}
   - component: {fileID: 2198534695524067528}
+  - component: {fileID: 1521237288634303354}
   m_Layer: 0
   m_Name: Enemy_Plant
   m_TagString: Untagged
@@ -184,6 +185,20 @@ MonoBehaviour:
   bulletOrigin: {fileID: 3355797239712369572}
   bulletSpeed: 4
   facingRight: 0
+--- !u!114 &1521237288634303354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7458760288467328566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e8f148922f0ec42a4b1cc96281358f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruit: {fileID: 6776853651205269930, guid: a69225acc765a574997c689557123cca, type: 3}
+  dropAmount: 0
 --- !u!1 &8773369386003734256
 GameObject:
   m_ObjectHideFlags: 0
